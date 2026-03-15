@@ -891,6 +891,21 @@ body.rtl .main-footer .container {
   cursor: pointer;
 }
 
+.auth-forgot-text {
+  margin-top: 10px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.auth-forgot-text span {
+  color: #999;
+  cursor: pointer;
+}
+
+.auth-forgot-text span:hover {
+  color: var(--primary);
+}
+
 .hidden {
   display: none;
 }

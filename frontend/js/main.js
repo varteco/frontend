@@ -149,11 +149,12 @@ function handleLogin() {
 
 function handleSignup() {
   const username = document.getElementById('signup-username').value;
+  const email = document.getElementById('signup-email').value;
   const name = document.getElementById('signup-name').value;
   const phone = document.getElementById('signup-phone').value;
   const password = document.getElementById('signup-password').value;
   
-  if (!username || !name || !phone || !password) {
+  if (!username || !email || !name || !phone || !password) {
     alert('Please fill in all fields');
     return;
   }
@@ -161,7 +162,7 @@ function handleSignup() {
   fetch(`${API_BASE}/auth/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, name, phone, password })
+    body: JSON.stringify({ username, email, name, phone, password })
   })
   .then(res => res.json())
   .then(data => {
@@ -175,6 +176,45 @@ function handleSignup() {
       alert('Account created successfully!');
     } else {
       alert(data.message || 'Registration failed');
+    }
+  })
+  .catch(err => {
+    alert('Connection error. Please try again.');
+  });
+}
+
+function showForgotPassword() {
+  closeAuthModal();
+  const modal = document.getElementById('forgot-password-modal');
+  if (modal) modal.classList.add('show');
+}
+
+function closeForgotPassword() {
+  const modal = document.getElementById('forgot-password-modal');
+  if (modal) modal.classList.remove('show');
+  const successEl = document.getElementById('forgot-success');
+  if (successEl) successEl.style.display = 'none';
+}
+
+function handleForgotPassword() {
+  const email = document.getElementById('forgot-email').value;
+  
+  if (!email) {
+    alert('Please enter your email');
+    return;
+  }
+
+  fetch(`${API_BASE}/auth/forgot-password`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      document.getElementById('forgot-success').style.display = 'block';
+    } else {
+      alert(data.message || 'Failed to send reset link');
     }
   })
   .catch(err => {
