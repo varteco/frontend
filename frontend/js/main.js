@@ -148,13 +148,12 @@ function handleLogin() {
 }
 
 function handleSignup() {
-  const username = document.getElementById('signup-username').value;
   const email = document.getElementById('signup-email').value;
   const name = document.getElementById('signup-name').value;
   const phone = document.getElementById('signup-phone').value;
   const password = document.getElementById('signup-password').value;
   
-  if (!username || !email || !name || !phone || !password) {
+  if (!email || !name || !phone || !password) {
     alert('Please fill in all fields');
     return;
   }
@@ -162,7 +161,7 @@ function handleSignup() {
   fetch(`${API_BASE}/auth/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, email, name, phone, password })
+    body: JSON.stringify({ email, name, phone, password })
   })
   .then(res => res.json())
   .then(data => {
