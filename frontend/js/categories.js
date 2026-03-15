@@ -1,4 +1,4 @@
-const API_BASE = '/api';
+const API_BASE = 'https://backend-51wx.onrender.com/api';
 let currentUser = null;
 let authToken = localStorage.getItem('customerToken');
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
