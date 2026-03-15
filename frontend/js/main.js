@@ -56,50 +56,129 @@ function openAuthModal() {
   const authModal = document.getElementById('auth-modal');
   if (!authModal) return;
   authModal.classList.add('show');
-  showAuthTab('login');
+  showLogin();
+}
+
+function showLogin() {
+  const loginForm = document.getElementById('loginForm');
+  const registerForm = document.getElementById('registerForm');
+  const loginTab = document.getElementById('loginTab');
+  const registerTab = document.getElementById('registerTab');
+
+  const styles = getComputedStyle(document.documentElement);
+  const primary = styles.getPropertyValue('--primary').trim();
+  const black = styles.getPropertyValue('--black').trim();
+
+  if (loginForm) loginForm.classList.remove('hidden');
+  if (registerForm) registerForm.classList.add('hidden');
+  
+  if (loginTab) {
+    loginTab.classList.remove('inactive');
+    loginTab.style.backgroundColor = primary;
+    loginTab.style.color = black;
+  }
+  if (registerTab) {
+    registerTab.classList.add('inactive');
+    registerTab.style.backgroundColor = black;
+    registerTab.style.color = primary;
+  }
+}
+
+function showRegister() {
+  const loginForm = document.getElementById('loginForm');
+  const registerForm = document.getElementById('registerForm');
+  const loginTab = document.getElementById('loginTab');
+  const registerTab = document.getElementById('registerTab');
+
+  const styles = getComputedStyle(document.documentElement);
+  const primary = styles.getPropertyValue('--primary').trim();
+  const black = styles.getPropertyValue('--black').trim();
+
+  if (registerForm) registerForm.classList.remove('hidden');
+  if (loginForm) loginForm.classList.add('hidden');
+
+  if (registerTab) {
+    registerTab.classList.remove('inactive');
+    registerTab.style.backgroundColor = primary;
+    registerTab.style.color = black;
+  }
+  if (loginTab) {
+    loginTab.classList.add('inactive');
+    loginTab.style.backgroundColor = black;
+    loginTab.style.color = primary;
+  }
 }
 
 function closeAuthModal() {
   const authModal = document.getElementById('auth-modal');
   if (!authModal) return;
   authModal.classList.remove('show');
-  const loginForm = document.getElementById('login-form');
-  const loginError = document.getElementById('login-error');
-  if (loginForm) loginForm.reset();
-  if (loginError) loginError.textContent = '';
 }
 
-const loginForm = document.getElementById('login-form');
-if (loginForm) {
-  loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('login-email').value;
-    const password = document.getElementById('login-password').value;
-    const errorEl = document.getElementById('login-error');
-    
-    try {
-      const response = await fetch(`${API_BASE}/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      });
-      
-      const data = await response.json();
-      
-      if (response.ok) {
-        authToken = data.token;
-        currentUser = data.user;
-        localStorage.setItem('customerToken', authToken);
-        localStorage.setItem('customerUser', JSON.stringify(currentUser));
-        if (errorEl) errorEl.textContent = '';
-        closeAuthModal();
-        showLoggedInState();
-      } else {
-        if (errorEl) errorEl.textContent = data.message || 'Login failed';
-      }
-    } catch (error) {
-      if (errorEl) errorEl.textContent = 'Connection error. Please try again.';
+function handleLogin() {
+  const email = document.getElementById('login-email').value;
+  const password = document.getElementById('login-password').value;
+  
+  if (!email || !password) {
+    alert('Please fill in all fields');
+    return;
+  }
+
+  fetch(`${API_BASE}/auth/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.token) {
+      authToken = data.token;
+      currentUser = data.user;
+      localStorage.setItem('customerToken', authToken);
+      localStorage.setItem('customerUser', JSON.stringify(currentUser));
+      closeAuthModal();
+      showLoggedInState();
+    } else {
+      alert(data.message || 'Login failed');
     }
+  })
+  .catch(err => {
+    alert('Connection error. Please try again.');
+  });
+}
+
+function handleSignup() {
+  const username = document.getElementById('signup-username').value;
+  const name = document.getElementById('signup-name').value;
+  const phone = document.getElementById('signup-phone').value;
+  const password = document.getElementById('signup-password').value;
+  
+  if (!username || !name || !phone || !password) {
+    alert('Please fill in all fields');
+    return;
+  }
+
+  fetch(`${API_BASE}/auth/register`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, name, phone, password })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.token) {
+      authToken = data.token;
+      currentUser = data.user;
+      localStorage.setItem('customerToken', authToken);
+      localStorage.setItem('customerUser', JSON.stringify(currentUser));
+      closeAuthModal();
+      showLoggedInState();
+      alert('Account created successfully!');
+    } else {
+      alert(data.message || 'Registration failed');
+    }
+  })
+  .catch(err => {
+    alert('Connection error. Please try again.');
   });
 }
 

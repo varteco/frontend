@@ -755,7 +755,7 @@ body.rtl .main-footer .container {
   color: #666;
 }
 
-/* Auth Modal */
+/* Auth Modal - New Template Style */
 .modal {
   display: none;
   position: fixed;
@@ -763,7 +763,7 @@ body.rtl .main-footer .container {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.8);
   z-index: 2000;
   align-items: center;
   justify-content: center;
@@ -774,101 +774,125 @@ body.rtl .main-footer .container {
 }
 
 .modal-content {
-  background: var(--white);
-  border-radius: 10px;
-  overflow: hidden;
+  background: #fff;
   width: 90%;
   max-width: 400px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
   position: relative;
 }
 
-.close {
+.modal-close {
   position: absolute;
   top: 15px;
   right: 15px;
   font-size: 24px;
   cursor: pointer;
   z-index: 10;
+  color: #333;
 }
 
 .auth-tabs {
   display: flex;
-  background: var(--black);
 }
 
 .auth-tab {
   flex: 1;
-  padding: 15px;
-  background: none;
+  padding: 18px;
   border: none;
-  color: var(--primary);
+  outline: none;
   cursor: pointer;
+  font-weight: bold;
   font-size: 16px;
+  transition: 0.3s;
 }
 
-.auth-tab.active {
-  background: var(--primary);
+.auth-tab.tab-login {
+  background-color: var(--primary);
   color: var(--black);
 }
 
-.auth-form {
-  padding: 30px;
+.auth-tab.tab-register {
+  background-color: var(--black);
+  color: var(--primary);
 }
 
-.auth-form h2 {
-  margin-bottom: 20px;
-  color: var(--black);
+.auth-tab.inactive {
+  background-color: #333;
+  color: #888;
+}
+
+.auth-form-wrapper {
+  padding: 30px 25px;
   text-align: center;
 }
 
-.auth-form .form-group {
+.auth-form-wrapper h2 {
+  margin-top: 0;
+  font-size: 24px;
+  margin-bottom: 25px;
+}
+
+.auth-input-group {
+  text-align: left;
   margin-bottom: 15px;
 }
 
-.auth-form label {
+.auth-input-group label {
   display: block;
+  font-size: 14px;
+  font-weight: 600;
   margin-bottom: 5px;
-  color: #333;
+  color: #444;
 }
 
-.auth-form input {
+.auth-input-group input {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  box-sizing: border-box;
+  background-color: #f9f9f9;
 }
 
-.auth-form input:focus {
+.auth-input-group input:focus {
   outline: none;
   border-color: var(--primary);
 }
 
-.auth-form .btn {
+.auth-submit-btn {
   width: 100%;
-  text-align: center;
-  cursor: pointer;
+  padding: 14px;
+  background-color: var(--black);
+  color: var(--primary);
   border: none;
-  font-size: 16px;
-  background: var(--black);
-  color: var(--primary);
-  padding: 12px;
+  border-radius: 4px;
+  font-size: 18px;
   font-weight: bold;
-}
-
-.auth-error {
-  color: red;
-  text-align: center;
+  cursor: pointer;
   margin-top: 10px;
+  transition: opacity 0.2s;
 }
 
-.auth-switch {
-  text-align: center;
-  margin-top: 15px;
+.auth-submit-btn:hover {
+  opacity: 0.9;
 }
 
-.auth-switch a {
+.auth-toggle-text {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #666;
+}
+
+.auth-toggle-text span {
   color: var(--primary);
-  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
 }
 
 /* Cart Modal */
