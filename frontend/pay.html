@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Aisha Beauty</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="checkout-container">
+    <div class="checkout-header">
+        <a href="shop.html" class="back-link">&larr; Back to Shop</a>
+        <h1>Checkout</h1>
+    </div>
+
+    <div id="step-cart" class="step active">
+        <h2>Your Shopping Cart</h2>
+        <div id="cart-items-container">
+            <!-- Cart items will be loaded from localStorage -->
+        </div>
+        <hr>
+        <div class="item-row"><strong>Subtotal:</strong> <strong id="cart-subtotal">$0.00</strong></div>
+        <div class="item-row"><span>Shipping:</span> <span id="shipping-cost">Free</span></div>
+        <hr>
+        <div class="item-row"><strong>Total:</strong> <strong id="cart-total">$0.00</strong></div>
+        <button class="btn btn-primary" onclick="goToAuth()">Proceed to Checkout</button>
+    </div>
+
+    <div id="step-auth" class="step">
+        <h2>Checkout Options</h2>
+        <button class="btn btn-primary" onclick="showLogin()">Login to My Account</button>
+        <button class="btn btn-guest" style="margin-top: 15px;" onclick="nextStep('step-shipping')">Continue as Guest</button>
+    </div>
+
+    <div id="step-shipping" class="step">
+        <h2>Shipping Information</h2>
+        <label for="shippingName">Full Name</label>
+        <input type="text" id="shippingName" placeholder="John Doe">
+        <label for="shippingEmail">Email</label>
+        <input type="email" id="shippingEmail" placeholder="john@example.com">
+        <label for="shippingPhone">Phone</label>
+        <input type="tel" id="shippingPhone" placeholder="+1 234 567 8900">
+        <label for="shippingAddress">Address</label>
+        <input type="text" id="shippingAddress" placeholder="123 Main St">
+        <label for="shippingCity">City</label>
+        <input type="text" id="shippingCity" placeholder="New York">
+        <div class="flex-inputs">
+            <div style="flex: 2;">
+                <label>State</label>
+                <input type="text" id="shippingState" placeholder="NY">
+            </div>
+            <div style="flex: 1;">
+                <label>ZIP</label>
+                <input type="text" id="shippingZip" placeholder="10001">
+            </div>
+        </div>
+        <button class="btn btn-primary" onclick="nextStep('step-payment')">Continue to Payment</button>
+    </div>
+
+    <div id="step-payment" class="step">
+        <h2>Select Payment Method</h2>
+        <div class="express-checkout">
+            <div class="btn-apple" onclick="fastPay('Apple Pay')"> Pay</div>
+            <div class="btn-paypal" onclick="fastPay('PayPal')"><i>PayPal</i></div>
+        </div>
+        <div class="divider"><span>Or Pay With Card</span></div>
+        <label for="cardName">Cardholder Name</label>
+        <input type="text" id="cardName" placeholder="John Doe">
+        <label for="cardNumber">Card Number</label>
+        <input type="text" id="cardNumber" placeholder="xxxx xxxx xxxx xxxx" maxlength="19">
+        <div class="flex-inputs">
+            <div style="flex: 2;">
+                <label>Expiration</label>
+                <input type="text" placeholder="MM / YY" maxlength="5">
+            </div>
+            <div style="flex: 1;">
+                <label>CVV</label>
+                <input type="text" placeholder="123" maxlength="4">
+            </div>
+        </div>
+        <button class="btn btn-primary" onclick="processCardPayment()">Review Order</button>
+    </div>
+
+    <div id="step-summary" class="step">
+        <h2>Review & Place Order</h2>
+        <div id="summary-content"></div>
+        <hr>
+        <div class="item-row"><strong>Grand Total:</strong> <strong id="grand-total">$0.00</strong></div>
+        <button class="btn btn-success" onclick="finishOrder()">Complete Purchase</button>
+    </div>
+</div>
+
+<!-- Auth Modal -->
+<div id="auth-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeAuthModal()">&times;</span>
+        <h2>Login</h2>
+        <form id="login-form">
+            <input type="email" id="login-email" placeholder="Email" required>
+            <input type="password" id="login-password" placeholder="Password" required>
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+        <p id="login-error" style="color: red;"></p>
+        <p style="text-align: center; margin-top: 15px;">Don't have an account? <a href="#" onclick="showRegister(); return false;">Register</a></p>
+    </div>
+</div>
+
+<!-- Register Modal -->
+<div id="register-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeRegisterModal()">&times;</span>
+        <h2>Register</h2>
+        <form id="register-form">
+            <input type="text" id="register-name" placeholder="Full Name" required>
+            <input type="email" id="register-email" placeholder="Email" required>
+            <input type="tel" id="register-phone" placeholder="Phone (optional)">
+            <input type="password" id="register-password" placeholder="Password" required>
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+        <p id="register-error" style="color: red;"></p>
+        <p style="text-align: center; margin-top: 15px;">Already have an account? <a href="#" onclick="showLogin(); return false;">Login</a></p>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
