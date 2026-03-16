@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Success - Aisha Beauty</title>
+    <style>
+        :root { --primary: #FFD700; --black: #000000; --dark: #333; --light: #f5f5f5; --white: #fff; }
+        body { font-family: 'Roboto', sans-serif; margin: 0; padding: 0; background: var(--light); display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .success-container { text-align: center; background: var(--white); padding: 50px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); max-width: 500px; }
+        .checkmark { width: 80px; height: 80px; background: #28a745; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+        .checkmark i { color: white; font-size: 40px; }
+        h1 { color: var(--black); margin-bottom: 10px; }
+        p { color: var(--dark); margin-bottom: 30px; }
+        .order-id { background: var(--light); padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+        .order-id strong { color: var(--primary); }
+        .btn { display: inline-block; padding: 14px 30px; background: var(--black); color: var(--primary); text-decoration: none; border-radius: 4px; font-weight: bold; }
+        .btn:hover { background: #222; }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <div class="checkmark"><i class="fas fa-check"></i></div>
+        <h1>Order Confirmed!</h1>
+        <p>Thank you for your purchase. Your order has been received and is being processed.</p>
+        <div class="order-id">
+            <p>Order ID: <strong id="orderId">Loading...</strong></p>
+        </div>
+        <a href="index.html" class="btn">Continue Shopping</a>
+    </div>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('orderId');
+        document.getElementById('orderId').textContent = orderId || 'N/A';
+    </script>
+</body>
+</html>
