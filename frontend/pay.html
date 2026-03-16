@@ -247,7 +247,11 @@ function proceedToCheckout() {
         document.getElementById('shippingName').value = currentUser.name || '';
         document.getElementById('shippingEmail').value = currentUser.email || '';
         document.getElementById('shippingPhone').value = currentUser.phone || '';
-        nextStep('step-shipping');
+        document.getElementById('shippingAddress').value = currentUser.address || '';
+        document.getElementById('shippingCity').value = currentUser.city || '';
+        document.getElementById('shippingState').value = currentUser.state || '';
+        document.getElementById('shippingZip').value = currentUser.zip || '';
+        nextStep('step-payment');
     } else {
         nextStep('step-auth');
     }
@@ -299,7 +303,11 @@ if (loginForm) {
                 document.getElementById('shippingName').value = currentUser.name || '';
                 document.getElementById('shippingEmail').value = currentUser.email || '';
                 document.getElementById('shippingPhone').value = currentUser.phone || '';
-                nextStep('step-shipping');
+                document.getElementById('shippingAddress').value = currentUser.address || '';
+                document.getElementById('shippingCity').value = currentUser.city || '';
+                document.getElementById('shippingState').value = currentUser.state || '';
+                document.getElementById('shippingZip').value = currentUser.zip || '';
+                nextStep('step-payment');
             } else {
                 if (errorEl) errorEl.textContent = data.message || 'Login failed';
             }
@@ -335,7 +343,11 @@ if (registerForm) {
                 document.getElementById('shippingName').value = currentUser.name || '';
                 document.getElementById('shippingEmail').value = currentUser.email || '';
                 document.getElementById('shippingPhone').value = currentUser.phone || '';
-                nextStep('step-shipping');
+                document.getElementById('shippingAddress').value = currentUser.address || '';
+                document.getElementById('shippingCity').value = currentUser.city || '';
+                document.getElementById('shippingState').value = currentUser.state || '';
+                document.getElementById('shippingZip').value = currentUser.zip || '';
+                nextStep('step-payment');
             } else {
                 if (errorEl) errorEl.textContent = data.message || 'Registration failed';
             }
