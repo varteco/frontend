@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account - Aisha Beauty</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary: #FFD700; --black: #000000; --dark: #333; --light: #f5f5f5; --white: #fff; --gray: #999; --border: #e5e5e5; }
+        body { font-family: 'Roboto', sans-serif; margin: 0; padding: 0; background: var(--light); }
+        .profile-container { max-width: 800px; margin: 30px auto; background: var(--white); border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .profile-header { background: var(--black); color: var(--primary); padding: 30px; text-align: center; }
+        .profile-header h1 { margin: 0 0 10px 0; }
+        .profile-header .user-email { color: #ccc; font-size: 14px; }
+        .profile-content { padding: 30px; }
+        .profile-section { margin-bottom: 30px; }
+        .profile-section h2 { color: var(--black); font-size: 20px; margin-bottom: 15px; border-bottom: 2px solid var(--primary); padding-bottom: 10px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; color: var(--dark); font-weight: 500; }
+        .form-group input { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 4px; font-size: 14px; box-sizing: border-box; }
+        .form-group input:focus { outline: none; border-color: var(--primary); }
+        .btn { display: inline-block; padding: 12px 24px; background: var(--black); color: var(--primary); border: none; border-radius: 4px; font-size: 14px; font-weight: bold; cursor: pointer; }
+        .btn:hover { background: #222; }
+        .btn-logout { background: #dc3545; color: var(--white); }
+        .btn-logout:hover { background: #c82333; }
+        .orders-list { border: 1px solid var(--border); border-radius: 4px; }
+        .order-item { padding: 15px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .order-item:last-child { border-bottom: none; }
+        .order-info h4 { margin: 0 0 5px 0; color: var(--black); }
+        .order-info p { margin: 0; font-size: 13px; color: var(--gray); }
+        .order-status { padding: 5px 10px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+        .status-pending { background: #ffc107; color: #000; }
+        .status-processing { background: #17a2b8; color: #fff; }
+        .status-delivered { background: #28a745; color: #fff; }
+        .empty-state { text-align: center; padding: 40px; color: var(--gray); }
+        .back-link { display: inline-block; margin: 20px; color: var(--primary); text-decoration: none; }
+        .back-link:hover { color: var(--white); }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">← Back to Home</a>
+    
+    <div class="profile-container">
+        <div class="profile-header">
+            <h1><i class="fas fa-user-circle"></i> My Account</h1>
+            <p class="user-email" id="user-email">Loading...</p>
+        </div>
+        
+        <div class="profile-content">
+            <div class="profile-section">
+                <h2>Personal Information</h2>
+                <form id="profile-form">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="profile-name" placeholder="Your name">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="profile-email" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" id="profile-phone" placeholder="Your phone">
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <input type="text" id="profile-address" placeholder="Your address">
+                    </div>
+                    <div class="form-group">
+                        <label>City</label>
+                        <input type="text" id="profile-city" placeholder="City">
+                    </div>
+                    <div class="flex-inputs" style="display: flex; gap: 15px;">
+                        <div class="form-group" style="flex: 1;">
+                            <label>State</label>
+                            <input type="text" id="profile-state" placeholder="State">
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label>ZIP Code</label>
+                            <input type="text" id="profile-zip" placeholder="ZIP">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn">Save Changes</button>
+                </form>
+            </div>
+            
+            <div class="profile-section">
+                <h2>My Orders</h2>
+                <div id="orders-list">
+                    <div class="empty-state">Loading orders...</div>
+                </div>
+            </div>
+            
+            <div class="profile-section">
+                <button class="btn btn-logout" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'https://backend-51wx.onrender.com/api';
+        let authToken = localStorage.getItem('customerToken');
+        let currentUser = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!authToken) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            try {
+                currentUser = JSON.parse(localStorage.getItem('customerUser'));
+                if (currentUser) {
+                    document.getElementById('user-email').textContent = currentUser.email;
+                    document.getElementById('profile-name').value = currentUser.name || '';
+                    document.getElementById('profile-email').value = currentUser.email || '';
+                    document.getElementById('profile-phone').value = currentUser.phone || '';
+                    document.getElementById('profile-address').value = currentUser.address || '';
+                    document.getElementById('profile-city').value = currentUser.city || '';
+                    document.getElementById('profile-state').value = currentUser.state || '';
+                    document.getElementById('profile-zip').value = currentUser.zip || '';
+                }
+            } catch (e) {
+                console.error('Error loading user:', e);
+            }
+            
+            loadOrders();
+        });
+
+        document.getElementById('profile-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const updatedUser = {
+                name: document.getElementById('profile-name').value,
+                phone: document.getElementById('profile-phone').value,
+                address: document.getElementById('profile-address').value,
+                city: document.getElementById('profile-city').value,
+                state: document.getElementById('profile-state').value,
+                zip: document.getElementById('profile-zip').value
+            };
+            
+            try {
+                const response = await fetch(`${API_BASE}/auth/profile`, {
+                    method: 'PUT',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify(updatedUser)
+                });
+                
+                if (response.ok) {
+                    currentUser = { ...currentUser, ...updatedUser };
+                    localStorage.setItem('customerUser', JSON.stringify(currentUser));
+                    alert('Profile updated successfully!');
+                } else {
+                    alert('Failed to update profile');
+                }
+            } catch (error) {
+                alert('Error updating profile');
+            }
+        });
+
+        function loadOrders() {
+            if (!authToken) return;
+            
+            fetch(`${API_BASE}/orders`, {
+                headers: { 'Authorization': `Bearer ${authToken}` }
+            })
+            .then(res => res.json())
+            .then(orders => {
+                const container = document.getElementById('orders-list');
+                if (!orders || orders.length === 0) {
+                    container.innerHTML = '<div class="empty-state">No orders yet</div>';
+                    return;
+                }
+                
+                container.innerHTML = orders.map(order => {
+                    let statusClass = 'status-pending';
+                    if (order.status === 'processing') statusClass = 'status-processing';
+                    if (order.status === 'delivered' || order.status === 'shipped') statusClass = 'status-delivered';
+                    
+                    return `
+                        <div class="order-item">
+                            <div class="order-info">
+                                <h4>${order.orderId}</h4>
+                                <p>${order.items?.length || 0} items - $${order.totalAmount?.toFixed(2) || '0.00'}</p>
+                                <p>${new Date(order.orderDate).toLocaleDateString()}</p>
+                            </div>
+                            <span class="order-status ${statusClass}">${order.status}</span>
+                        </div>
+                    `;
+                }).join('');
+            })
+            .catch(err => {
+                document.getElementById('orders-list').innerHTML = '<div class="empty-state">Error loading orders</div>';
+            });
+        }
+
+        function logout() {
+            localStorage.removeItem('customerToken');
+            localStorage.removeItem('customerUser');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

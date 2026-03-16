@@ -430,8 +430,11 @@ function finishOrder() {
         if (data.url) {
             localStorage.removeItem('cart');
             window.location.href = data.url;
+        } else if (data.success && data.orderId) {
+            localStorage.removeItem('cart');
+            window.location.href = `order-success.html?orderId=${data.orderId}`;
         } else {
-            alert('Order created but no payment URL returned');
+            alert(data.message || 'Order created but no payment URL returned');
         }
     })
     .catch(err => {
