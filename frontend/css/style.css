@@ -2144,6 +2144,8 @@ body.rtl .main-footer .container {
 /* Extra Small Devices (480px and below) */
 @media (max-width: 480px) {
   .container {
+    max-width: 100%;
+    width: 100%;
     padding: 0 10px;
   }
 
