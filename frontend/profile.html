@@ -182,7 +182,7 @@
                     if (order.status === 'delivered' || order.status === 'shipped') statusClass = 'status-delivered';
                     
                     return `
-                        <div class="order-item">
+                        <div class="order-item" onclick="handleOrderClick('${order._id}')" style="cursor:pointer;">
                             <div class="order-info">
                                 <h4>${order.orderId}</h4>
                                 <p>${order.items?.length || 0} items - $${order.totalAmount?.toFixed(2) || '0.00'}</p>
@@ -202,6 +202,40 @@
             localStorage.removeItem('customerToken');
             localStorage.removeItem('customerUser');
             window.location.href = 'index.html';
+        }
+
+        async function handleOrderClick(orderId) {
+            const authToken = localStorage.getItem('customerToken');
+            if (!authToken) return;
+
+            try {
+                const res = await fetch(`${API_BASE}/orders/${orderId}`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                const order = await res.json();
+                console.log('Order:', order);
+
+                if (confirm('Do you want to cancel this order? This will remove it from the database and update status in admin panel.')) {
+                    const cancelRes = await fetch(`${API_BASE}/orders/${orderId}`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Authorization': `Bearer ${authToken}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ status: 'cancelled' })
+                    });
+
+                    if (cancelRes.ok) {
+                        alert('Order cancelled successfully!');
+                        loadOrders();
+                    } else {
+                        alert('Failed to cancel order');
+                    }
+                }
+            } catch (err) {
+                console.error('Error:', err);
+                alert('Error processing order');
+            }
         }
     </script>
 </body>
