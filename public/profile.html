@@ -308,32 +308,46 @@
       });
       
       async function checkAuthAndLoadProfile() {
+          console.log('Checking auth...');
           const token = localStorage.getItem('customerToken');
-          const user = JSON.parse(localStorage.getItem('customerUser') || 'null');
+          const userStr = localStorage.getItem('customerUser');
+          const user = userStr ? JSON.parse(userStr) : null;
+          
+          console.log('Token:', token ? 'exists' : 'none');
+          console.log('User:', user);
           
           if (!token || !user) {
+              console.log('No auth - showing login');
               showLoginSection();
               return;
           }
           
           try {
+              console.log('Fetching user from API...');
               const response = await fetch(`${API_BASE}/auth/me`, {
                   headers: { 'Authorization': `Bearer ${token}` }
               });
               
+              console.log('Response status:', response.status);
+              
               if (!response.ok) {
+                  console.log('Auth failed - showing login');
                   showLoginSection();
                   return;
               }
               
               const userData = await response.json();
+              console.log('User data:', userData);
               showProfileSection(userData);
               loadOrders();
           } catch (error) {
+              console.error('Auth error:', error);
               if (user && user.email) {
+                  console.log('Using cached user');
                   showProfileSection(user);
                   loadOrders();
               } else {
+                  console.log('No cached user - showing login');
                   showLoginSection();
               }
           }
@@ -365,6 +379,8 @@
           const email = document.getElementById('login-email').value;
           const password = document.getElementById('login-password').value;
           
+          console.log('Login attempt:', email);
+          
           try {
               const response = await fetch(`${API_BASE}/auth/customer-login`, {
                   method: 'POST',
@@ -373,6 +389,7 @@
               });
               
               const data = await response.json();
+              console.log('Login response:', data);
               
               if (data.token) {
                   localStorage.setItem('customerToken', data.token);
@@ -385,6 +402,7 @@
                   showToast(data.message || 'Login failed', true);
               }
           } catch (error) {
+              console.error('Login error:', error);
               showToast('Connection error. Please try again.', true);
           }
       }
