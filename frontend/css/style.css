@@ -18,6 +18,18 @@
   box-sizing: border-box;
 }
 
+/* Logo */
+.logo img {
+  height: 60px;
+  transition: 0.3s ease;
+  filter: drop-shadow(0 0 5px gold);
+}
+
+.logo img:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 10px gold);
+}
+
 /* Container */
 .container {
   width: 100%;
@@ -2199,8 +2211,17 @@ body.rtl .main-footer .container {
     gap: 10px;
   }
 
-  .logo-section img {
-    height: 45px;
+  /* Logo */
+  .logo img {
+    background-color: black;
+    height: 60px;
+    transition: 0.3s ease;
+    filter: drop-shadow(0 0 5px gold);
+  }
+
+  .logo img:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 10px gold);
   }
 
   .search-section {
