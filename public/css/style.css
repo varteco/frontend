@@ -181,6 +181,25 @@ body.rtl .main-footer .container {
   margin-left: 15px;
 }
 
+.top-header-right .user-logged-in {
+  background: linear-gradient(135deg, var(--primary), #FFA500);
+  color: var(--black);
+  padding: 8px 16px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.top-header-right .user-logged-in:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+}
+
+.top-header-right .user-logged-in i {
+  margin-right: 6px;
+}
+
 /* Main Header */
 .main-header {
   background: var(--white);
