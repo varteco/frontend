@@ -1909,6 +1909,10 @@ body.rtl .main-footer .container {
 
 /* Extra small devices */
 @media (max-width: 400px) {
+  .logo img {
+    height: 45px;
+  }
+
   .products-grid-main {
     grid-template-columns: 1fr 1fr;
     gap: 10px;
@@ -2155,6 +2159,10 @@ body.rtl .main-footer .container {
 
 /* Extra Small Devices (480px and below) */
 @media (max-width: 480px) {
+  .logo img {
+    height: 50px;
+  }
+
   .container {
     max-width: 480px;
     width: 100%;
