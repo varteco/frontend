@@ -59,7 +59,7 @@ function displayFeaturedProducts(products) {
           <p>${product.description || 'Premium fashion item'}</p>
           <div class="price">$${product.price.toFixed(2)}</div>
           <p class="stock-info ${stockClass}">${stockStatus}</p>
-          <button class="btn add-to-cart" onclick="addToCart('${product._id}', '${product.name}', ${product.price})">
+          <button class="btn add-to-cart" onclick="addToCart('${product._id}', '${product.name}', ${product.price}, '${product.images?.[0] || 'images/1.jpg'}')">
             ${t('addToCart')}
           </button>
         </div>

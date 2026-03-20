@@ -292,7 +292,7 @@ function displayProducts(products) {
         <p>${product.description || 'Premium fashion item'}</p>
         <div class="price">$${product.price.toFixed(2)}</div>
         <p class="stock-info ${stockClass}">${stockStatus}</p>
-        <button class="btn add-to-cart" onclick="addToCart('${product._id}', '${product.name}', ${product.price})">
+        <button class="btn add-to-cart" onclick="addToCart('${product._id}', '${product.name}', ${product.price}, '${product.images?.[0] || 'images/1.jpg'}')">
           ${t('addToCart')}
         </button>
       </div>
@@ -311,12 +311,12 @@ function closeCart() {
   document.getElementById('cart-modal').classList.remove('show');
 }
 
-function addToCart(id, name, price) {
+function addToCart(id, name, price, image) {
   const existingItem = cart.find(item => item.id === id);
   if (existingItem) {
     existingItem.qty++;
   } else {
-    cart.push({ id, name, price, qty: 1 });
+    cart.push({ id, name, price, image: image || 'images/1.jpg', qty: 1 });
   }
   localStorage.setItem('cart', JSON.stringify(cart));
   updateCartCount();
