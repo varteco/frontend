@@ -392,22 +392,17 @@ function checkout() {
     return;
   }
   closeCart();
-  window.location.href = 'pay.html';
+  alert('Payment feature coming soon! Please contact us to complete your order.');
 }
 
 function viewCartProducts() {
-  const authToken = localStorage.getItem('customerToken');
-  if (!authToken) {
-    window.location.href = 'cart-login.html';
-  } else {
-    window.location.href = 'cart-products.html';
-  }
+  window.location.href = 'cart.html';
 }
 
 function goToCheckout() {
   const authToken = localStorage.getItem('customerToken');
   if (!authToken) {
-    window.location.href = 'cart-login.html?redirect=pay.html';
+    window.location.href = 'cart-login.html';
   } else {
     checkout();
   }

@@ -300,18 +300,13 @@ function subscribeNewsletter(e) {
 }
 
 function viewCartProducts() {
-  const authToken = localStorage.getItem('customerToken');
-  if (!authToken) {
-    window.location.href = 'cart-login.html';
-  } else {
-    window.location.href = 'cart-products.html';
-  }
+  window.location.href = 'cart.html';
 }
 
 function goToCheckout() {
   const authToken = localStorage.getItem('customerToken');
   if (!authToken) {
-    window.location.href = 'cart-login.html?redirect=pay.html';
+    window.location.href = 'cart-login.html';
   } else {
     checkout();
   }
