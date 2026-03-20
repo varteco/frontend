@@ -400,19 +400,34 @@
 
   <!-- Forgot Password Modal -->
   <div id="forgot-password-modal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeForgotPassword()">&times;</span>
-      <h2>Reset Password</h2>
-      <p>Enter your email to receive a password reset link.</p>
-      <div class="auth-input-group">
-        <label>Email</label>
-        <input type="email" id="forgot-email" placeholder="Enter your email">
+    <div class="modal-content forgot-modal-content">
+      <span class="modal-close" onclick="closeForgotPassword()">&times;</span>
+      <div class="forgot-header">
+        <div class="forgot-icon">
+          <i class="fas fa-key"></i>
+        </div>
+        <h2>Forgot Password?</h2>
+        <p>No worries, we'll send you reset instructions.</p>
       </div>
-      <button class="auth-submit-btn" onclick="handleForgotPassword()">Send Reset Link</button>
-      <p id="forgot-success" style="color: green; display: none;">Reset link sent to your email! Check your inbox.</p>
-      <p style="text-align: center; margin-top: 15px;">
-        <a href="/reset-password.html" style="color: #007bff;">I already have a reset link</a>
-      </p>
+      <form id="forgot-form" onsubmit="handleForgotPassword(); return false;">
+        <div class="forgot-input-group">
+          <label><i class="fas fa-envelope"></i> Email Address</label>
+          <input type="email" id="forgot-email" placeholder="Enter your email address" required>
+        </div>
+        <button type="submit" class="forgot-btn" id="forgot-btn">
+          <i class="fas fa-paper-plane"></i> Send Reset Link
+        </button>
+      </form>
+      <div id="forgot-success" class="forgot-success" style="display: none;">
+        <i class="fas fa-check-circle"></i>
+        <p>Reset link sent!</p>
+        <span>Check your email for instructions.</span>
+      </div>
+      <div class="forgot-back">
+        <a href="#" onclick="closeForgotPassword(); showLogin(); return false;">
+          <i class="fas fa-arrow-left"></i> Back to Login
+        </a>
+      </div>
     </div>
   </div>
 

@@ -1001,6 +1001,181 @@ body.rtl .main-footer .container {
   display: none;
 }
 
+/* Forgot Password Modal - Professional Style */
+.forgot-modal-content {
+  max-width: 420px;
+  padding: 0;
+  text-align: center;
+  animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.forgot-header {
+  background: linear-gradient(135deg, #000 0%, #333 100%);
+  padding: 40px 30px 35px;
+  color: #fff;
+}
+
+.forgot-icon {
+  width: 70px;
+  height: 70px;
+  background: rgba(255, 215, 0, 0.15);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.forgot-icon i {
+  font-size: 28px;
+  color: #FFD700;
+}
+
+.forgot-header h2 {
+  margin: 0 0 10px;
+  font-size: 24px;
+  color: #fff;
+}
+
+.forgot-header p {
+  margin: 0;
+  color: #aaa;
+  font-size: 14px;
+}
+
+.forgot-modal-content form {
+  padding: 30px;
+}
+
+.forgot-input-group {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.forgot-input-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.forgot-input-group label i {
+  color: #FFD700;
+  margin-right: 6px;
+}
+
+.forgot-input-group input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  background: #fafafa;
+}
+
+.forgot-input-group input:focus {
+  border-color: #FFD700;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.15);
+  outline: none;
+}
+
+.forgot-input-group input::placeholder {
+  color: #aaa;
+}
+
+.forgot-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+}
+
+.forgot-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+}
+
+.forgot-btn:active {
+  transform: translateY(0);
+}
+
+.forgot-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.forgot-success {
+  padding: 30px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.forgot-success i {
+  font-size: 50px;
+  color: #28a745;
+  margin-bottom: 15px;
+}
+
+.forgot-success p {
+  font-size: 20px;
+  font-weight: bold;
+  color: #28a745;
+  margin: 0 0 5px;
+}
+
+.forgot-success span {
+  font-size: 14px;
+  color: #666;
+}
+
+.forgot-back {
+  padding: 20px 30px 30px;
+  border-top: 1px solid #eee;
+}
+
+.forgot-back a {
+  color: #666;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s;
+}
+
+.forgot-back a:hover {
+  color: #FFD700;
+}
+
+.forgot-back a i {
+  margin-right: 6px;
+}
+
 /* Cart Modal */
 .cart-modal-content {
   max-width: 500px;

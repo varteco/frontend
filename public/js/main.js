@@ -213,23 +213,34 @@ function handleSignup() {
 function showForgotPassword() {
   closeAuthModal();
   const modal = document.getElementById('forgot-password-modal');
-  if (modal) modal.classList.add('show');
+  if (modal) {
+    modal.classList.add('show');
+    document.getElementById('forgot-form').style.display = 'block';
+    document.getElementById('forgot-success').style.display = 'none';
+    document.getElementById('forgot-email').value = '';
+  }
 }
 
 function closeForgotPassword() {
   const modal = document.getElementById('forgot-password-modal');
   if (modal) modal.classList.remove('show');
   const successEl = document.getElementById('forgot-success');
+  const formEl = document.getElementById('forgot-form');
   if (successEl) successEl.style.display = 'none';
+  if (formEl) formEl.style.display = 'block';
 }
 
 function handleForgotPassword() {
   const email = document.getElementById('forgot-email').value;
+  const btn = document.getElementById('forgot-btn');
   
   if (!email) {
     alert('Please enter your email');
     return;
   }
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
 
   fetch(`${API_BASE}/auth/forgot-password`, {
     method: 'POST',
@@ -239,13 +250,18 @@ function handleForgotPassword() {
   .then(res => res.json())
   .then(data => {
     if (data.success) {
+      document.getElementById('forgot-form').style.display = 'none';
       document.getElementById('forgot-success').style.display = 'block';
     } else {
       alert(data.message || 'Failed to send reset link');
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Reset Link';
     }
   })
   .catch(err => {
     alert('Connection error. Please try again.');
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Reset Link';
   });
 }
 
