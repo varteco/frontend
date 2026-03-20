@@ -8,6 +8,17 @@ document.addEventListener('DOMContentLoaded', function () {
   checkAuth();
   updateCartCount();
   loadFeaturedProducts();
+  
+  document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('add-to-cart')) {
+      const btn = e.target;
+      const id = btn.dataset.id;
+      const name = btn.dataset.name;
+      const price = parseFloat(btn.dataset.price);
+      const image = btn.dataset.image;
+      addToCart(id, name, price, image);
+    }
+  });
 });
 
 async function loadFeaturedProducts() {
@@ -51,15 +62,16 @@ function displayFeaturedProducts(products) {
       stockStatus = t('outOfStock');
       stockClass = 'out-of-stock';
     }
+    const imgUrl = product.images && product.images[0] ? product.images[0] : 'images/1.jpg';
     return `
       <div class="product-card">
-        <img src="${product.images?.[0] || 'images/1.jpg'}" alt="${product.name}" class="product-img">
+        <img src="${imgUrl}" alt="${product.name}" class="product-img">
         <div class="product-info">
           <h3>${product.name}</h3>
           <p>${product.description || 'Premium fashion item'}</p>
           <div class="price">$${product.price.toFixed(2)}</div>
           <p class="stock-info ${stockClass}">${stockStatus}</p>
-          <button class="btn add-to-cart" onclick="addToCart('${product._id}', '${product.name}', ${product.price}, '${product.images?.[0] || 'images/1.jpg'}')">
+          <button class="btn add-to-cart" data-id="${product._id}" data-name="${product.name}" data-price="${product.price}" data-image="${imgUrl}">
             ${t('addToCart')}
           </button>
         </div>
@@ -96,6 +108,35 @@ function showLoggedOutState() {
 function updateCartCount() {
   const count = cart.reduce((sum, item) => sum + item.qty, 0);
   document.getElementById('cart-count').textContent = count;
+}
+
+function addToCart(id, name, price, image) {
+  const existingItem = cart.find(item => item.id === id);
+  if (existingItem) {
+    existingItem.qty++;
+  } else {
+    cart.push({ id, name, price, image: image || 'images/1.jpg', qty: 1 });
+  }
+  localStorage.setItem('cart', JSON.stringify(cart));
+  updateCartCount();
+  showToast('Item Added To Cart Successfully');
+}
+
+function showToast(message) {
+  let toast = document.getElementById('toast-notification');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'toast-notification';
+    toast.className = 'toast';
+    toast.innerHTML = `
+      <div class="toast-icon"><i class="fas fa-check"></i></div>
+      <div class="toast-message"></div>
+    `;
+    document.body.appendChild(toast);
+  }
+  toast.querySelector('.toast-message').textContent = message;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
 }
 
 function openCart() {

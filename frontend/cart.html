@@ -479,15 +479,17 @@
     <script src="js/language.js"></script>
     <script src="js/main.js"></script>
     <script>
-        const API_BASE = 'https://backend-51wx.onrender.com/api';
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
         document.addEventListener('DOMContentLoaded', function() {
             renderCart();
             updateBadge();
         });
 
+        function getCart() {
+            return JSON.parse(localStorage.getItem('cart')) || [];
+        }
+
         function updateBadge() {
+            const cart = getCart();
             const count = cart.reduce((sum, item) => sum + item.qty, 0);
             const cartCountEl = document.getElementById('cart-count');
             const mobileCartCountEl = document.getElementById('mobile-cart-count');
@@ -501,6 +503,7 @@
 
         function renderCart() {
             const container = document.getElementById('cartContent');
+            const cart = getCart();
             
             if (cart.length === 0) {
                 container.innerHTML = `
@@ -522,7 +525,7 @@
                     <tr class="cart-row" data-price="${item.price}">
                         <td class="product-info">
                             <div class="prod-img">
-                                ${item.image ? `<img src="${item.image}" alt="${item.name}">` : '<i class="fas fa-image"></i>'}
+                                ${item.image ? `<img src="${item.image}" alt="${item.name}" onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\\'fas fa-image\\'></i>'">` : '<i class="fas fa-image"></i>'}
                             </div>
                             <span class="prod-name">${item.name}</span>
                         </td>
@@ -587,6 +590,7 @@
         }
 
         function updateQuantity(id, delta) {
+            let cart = getCart();
             const item = cart.find(item => item.id === id);
             if (item) {
                 item.qty += delta;
@@ -601,6 +605,7 @@
         }
 
         function removeItem(id) {
+            let cart = getCart();
             cart = cart.filter(item => item.id !== id);
             localStorage.setItem('cart', JSON.stringify(cart));
             updateBadge();
@@ -609,8 +614,7 @@
 
         function clearCart() {
             if (confirm('Are you sure you want to clear your cart?')) {
-                cart = [];
-                localStorage.setItem('cart', JSON.stringify(cart));
+                localStorage.setItem('cart', JSON.stringify([]));
                 updateBadge();
                 renderCart();
             }

@@ -10,6 +10,17 @@ document.addEventListener('DOMContentLoaded', function () {
   updateCartCount();
   startSaleTimer();
   setupSaleFilters();
+  
+  document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('add-to-cart')) {
+      const btn = e.target;
+      const id = btn.dataset.id;
+      const name = btn.dataset.name;
+      const price = parseFloat(btn.dataset.price);
+      const image = btn.dataset.image;
+      addToCart(id, name, price, image);
+    }
+  });
 });
 
 function checkAuth() {
@@ -108,10 +119,11 @@ function displayProducts(products) {
       stockClass = 'out-of-stock';
     }
     
+    const imgUrl = product.images && product.images[0] ? product.images[0] : 'images/1.jpg';
     return `
       <div class="product-card sale-product-card">
         <div class="sale-badge">-${discount}%</div>
-        <img src="${product.images?.[0] || 'images/1.jpg'}" alt="${product.name}" class="product-img">
+        <img src="${imgUrl}" alt="${product.name}" class="product-img">
         <div class="product-info">
           <h3>${product.name}</h3>
           <p>${product.description || 'Premium fashion item'}</p>
@@ -120,7 +132,7 @@ function displayProducts(products) {
             <span class="sale-price">$${salePrice.toFixed(2)}</span>
           </div>
           <p class="stock-info ${stockClass}">${stockStatus}</p>
-          <button class="add-to-cart" onclick="addToCart('${product._id}', '${product.name}', ${salePrice}, '${product.images?.[0] || 'images/1.jpg'}')">
+          <button class="add-to-cart" data-id="${product._id}" data-name="${product.name}" data-price="${salePrice}" data-image="${imgUrl}">
             ${t('addToCart')}
           </button>
         </div>
