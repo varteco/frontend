@@ -717,6 +717,7 @@ function displayUsersTable(users) {
   table.innerHTML = '';
 
   users.forEach(user => {
+    const isCurrentUser = user._id === currentUser?._id;
     const row = document.createElement('tr');
     row.innerHTML = `
       <td>${user.username}</td>
@@ -724,22 +725,45 @@ function displayUsersTable(users) {
       <td>${user.email}</td>
       <td><span class="category-badge ${user.role}">${user.role}</span></td>
       <td>
-        <span class="status ${user.isActive ? 'active-user' : 'inactive-user'}">
+        <button class="btn-action ${user.isActive ? 'btn-active' : 'btn-inactive'}" onclick="toggleUserStatus('${user._id}', ${!user.isActive})">
+          <i class="fas ${user.isActive ? 'fa-check-circle' : 'fa-times-circle'}"></i>
           ${user.isActive ? 'Active' : 'Inactive'}
-        </span>
+        </button>
       </td>
       <td>${user.lastLogin ? new Date(user.lastLogin).toLocaleDateString() : 'Never'}</td>
       <td>
         <button class="btn-action btn-edit" onclick="editUser('${user._id}')">
           <i class="fas fa-edit"></i>
         </button>
+        ${!isCurrentUser ? `
         <button class="btn-action btn-delete" onclick="deleteUser('${user._id}')">
           <i class="fas fa-trash"></i>
         </button>
+        ` : '<span style="color:#999;font-size:12px;">You</span>'}
       </td>
     `;
     table.appendChild(row);
   });
+}
+
+async function toggleUserStatus(userId, newStatus) {
+  try {
+    const response = await authFetch(`${API_BASE}/auth/users/${userId}/toggle`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ isActive: newStatus })
+    });
+
+    if (response.ok) {
+      loadUsers();
+      alert(`User ${newStatus ? 'activated' : 'deactivated'} successfully!`);
+    } else {
+      alert('Error updating user status');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('Error updating user status');
+  }
 }
 
 function openUserModal(user = null) {
