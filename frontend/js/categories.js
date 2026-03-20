@@ -216,7 +216,7 @@ function viewOrders() {
     openAuthModal();
     return;
   }
-  window.location.href = 'admin.html#orders';
+  window.location.href = 'admin';
 }
 
 async function checkout() {
@@ -272,13 +272,13 @@ async function checkout() {
 }
 
 function viewCartProducts() {
-  window.location.href = 'cart.html';
+  window.location.href = 'cart';
 }
 
 function goToCheckout() {
   const authToken = localStorage.getItem('customerToken');
   if (!authToken) {
-    window.location.href = 'cart-login.html';
+    window.location.href = 'cart-login';
   } else {
     checkout();
   }

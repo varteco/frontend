@@ -425,7 +425,7 @@
                 <a href="#" onclick="openAuthModal()" id="user-icon-top">
                     <i class="fas fa-user"></i> <span>Login</span>
                 </a>
-                <a href="profile.html" id="user-menu-top" style="display: none;" class="user-logged-in">
+                <a href="profile" id="user-menu-top" style="display: none;" class="user-logged-in">
                     <span id="user-name-top"></span>
                 </a>
             </div>
@@ -437,7 +437,7 @@
         <div class="container">
             <div class="header-main">
                 <div class="logo-section">
-                    <a href="index.html" class="logo">
+                    <a href="index" class="logo">
                         <img src="images/LOGO.png" alt="Aisha Beauty" height="60">
                     </a>
                 </div>
@@ -485,11 +485,11 @@
     <div class="mobile-nav" id="mobileNav">
         <button class="mobile-nav-close" onclick="toggleMobileMenu()">&times;</button>
         <ul class="mobile-nav-links">
-            <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
-            <li><a href="shop.html"><i class="fas fa-store"></i> Shop</a></li>
-            <li><a href="categories.html"><i class="fas fa-th-large"></i> Categories</a></li>
-            <li><a href="new-arrivals.html"><i class="fas fa-star"></i> New Arrivals</a></li>
-            <li><a href="sale.html"><i class="fas fa-tag"></i> Sale</a></li>
+            <li><a href="index"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="shop"><i class="fas fa-store"></i> Shop</a></li>
+            <li><a href="categories"><i class="fas fa-th-large"></i> Categories</a></li>
+            <li><a href="new-arrivals"><i class="fas fa-star"></i> New Arrivals</a></li>
+            <li><a href="sale"><i class="fas fa-tag"></i> Sale</a></li>
         </ul>
         <div class="mobile-nav-actions">
             <a href="#" onclick="viewCartProducts(); toggleMobileMenu();"><i class="fas fa-shopping-cart"></i> Cart (<span id="mobile-cart-count">0</span>)</a>
@@ -514,11 +514,11 @@
                     </div>
                 </div>
                 <ul class="nav-links-main">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="shop.html">Shop</a></li>
-                    <li><a href="categories.html">Categories</a></li>
-                    <li><a href="new-arrivals.html">New Arrivals</a></li>
-                    <li><a href="sale.html">Sale</a></li>
+                    <li><a href="index">Home</a></li>
+                    <li><a href="shop">Shop</a></li>
+                    <li><a href="categories">Categories</a></li>
+                    <li><a href="new-arrivals">New Arrivals</a></li>
+                    <li><a href="sale">Sale</a></li>
                     <li><a href="#">Bulk Orders</a></li>
                 </ul>
             </div>
@@ -577,7 +577,7 @@
                         <i class="fas fa-shopping-cart"></i>
                         <h2>Your cart is empty</h2>
                         <p>Looks like you haven't added any items to your cart yet.</p>
-                        <a href="shop.html" class="btn-primary">Start Shopping</a>
+                        <a href="shop" class="btn-primary">Start Shopping</a>
                     </div>
                 `;
                 return;
@@ -638,7 +638,7 @@
                             </tbody>
                         </table>
                         <div class="cart-actions">
-                            <a href="shop.html" class="btn-primary"><i class="fas fa-arrow-left"></i> Continue Shopping</a>
+                            <a href="shop" class="btn-primary"><i class="fas fa-arrow-left"></i> Continue Shopping</a>
                             <button class="btn-outline" onclick="clearCart()"><i class="fas fa-trash"></i> Clear Cart</button>
                         </div>
                     </section>

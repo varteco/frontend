@@ -358,13 +358,13 @@ function checkout() {
 }
 
 function viewCartProducts() {
-  window.location.href = 'cart.html';
+  window.location.href = 'cart';
 }
 
 function goToCheckout() {
   const authToken = localStorage.getItem('customerToken');
   if (!authToken) {
-    window.location.href = 'cart-login.html';
+    window.location.href = 'cart-login';
   } else {
     checkout();
   }

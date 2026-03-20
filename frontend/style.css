@@ -283,19 +283,3 @@ input:focus {
   text-align: center;
   margin-top: 10px;
 }
-
-/* Responsive */
-@media (max-width: 480px) {
-  body {
-    padding: 20px 10px;
-  }
-
-  .checkout-container {
-    padding: 20px;
-  }
-
-  .flex-inputs {
-    flex-direction: column;
-    gap: 0;
-  }
-}

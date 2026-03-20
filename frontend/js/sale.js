@@ -299,9 +299,9 @@ async function checkout() {
 function performSearch() {
   const searchInput = document.getElementById('search-input');
   if (searchInput && searchInput.value.trim()) {
-    window.location.href = `shop.html?search=${encodeURIComponent(searchInput.value.trim())}`;
+    window.location.href = `shop?search=${encodeURIComponent(searchInput.value.trim())}`;
   } else {
-    window.location.href = 'shop.html';
+    window.location.href = 'shop';
   }
 }
 
@@ -312,13 +312,13 @@ function subscribeNewsletter(e) {
 }
 
 function viewCartProducts() {
-  window.location.href = 'cart.html';
+  window.location.href = 'cart';
 }
 
 function goToCheckout() {
   const authToken = localStorage.getItem('customerToken');
   if (!authToken) {
-    window.location.href = 'cart-login.html';
+    window.location.href = 'cart-login';
   } else {
     checkout();
   }

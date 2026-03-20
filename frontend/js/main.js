@@ -262,7 +262,7 @@ function viewOrders() {
     openAuthModal();
     return;
   }
-  window.location.href = 'admin.html#orders';
+  window.location.href = 'admin';
 }
 
 // ==================== PRODUCTS ====================
@@ -408,13 +408,13 @@ function checkout() {
 }
 
 function viewCartProducts() {
-  window.location.href = 'cart.html';
+  window.location.href = 'cart';
 }
 
 function goToCheckout() {
   const authToken = localStorage.getItem('customerToken');
   if (!authToken) {
-    window.location.href = 'cart-login.html';
+    window.location.href = 'cart-login';
   } else {
     checkout();
   }
@@ -430,9 +430,9 @@ window.onclick = function(event) {
 function performSearch() {
   const searchInput = document.getElementById('search-input');
   if (searchInput && searchInput.value.trim()) {
-    window.location.href = `shop.html?search=${encodeURIComponent(searchInput.value.trim())}`;
+    window.location.href = `shop?search=${encodeURIComponent(searchInput.value.trim())}`;
   } else {
-    window.location.href = 'shop.html';
+    window.location.href = 'shop';
   }
 }
 
