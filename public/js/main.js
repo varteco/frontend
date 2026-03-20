@@ -414,13 +414,57 @@ function removeFromCart(id) {
   displayCart();
 }
 
-function checkout() {
+async function checkout() {
   if (cart.length === 0) {
     alert('Your cart is empty');
     return;
   }
+  
+  const token = localStorage.getItem('customerToken');
+  if (!token) {
+    alert('Please login to checkout');
+    window.location.href = '/cart-login';
+    return;
+  }
+  
   closeCart();
-  alert('Payment feature coming soon! Please contact us to complete your order.');
+  
+  const cartTotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+  
+  const orderData = {
+    items: cart.map(item => ({
+      productId: item.id,
+      name: item.name,
+      price: item.price,
+      quantity: item.qty,
+      image: item.image
+    })),
+    total: cartTotal
+  };
+  
+  try {
+    const response = await fetch(`${API_BASE}/orders`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(orderData)
+    });
+    
+    if (response.ok) {
+      cart = [];
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCount();
+      alert('Order placed successfully! You can view it in your account.');
+      window.location.href = '/profile';
+    } else {
+      alert('Failed to place order. Please try again.');
+    }
+  } catch (error) {
+    console.error('Checkout error:', error);
+    alert('Connection error. Please try again.');
+  }
 }
 
 function viewCartProducts() {
