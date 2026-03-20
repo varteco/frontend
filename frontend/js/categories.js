@@ -125,7 +125,12 @@ function displayCart() {
       <div class="cart-item">
         <div class="cart-item-info">
           <h4>${item.name}</h4>
-          <p>$${item.price.toFixed(2)} x ${item.qty}</p>
+          <p>$${item.price.toFixed(2)}</p>
+          <div class="cart-item-qty">
+            <button onclick="changeQty('${item.id}', -1)">-</button>
+            <span>${item.qty}</span>
+            <button onclick="changeQty('${item.id}', 1)">+</button>
+          </div>
         </div>
         <div class="cart-item-price">$${itemTotal.toFixed(2)}</div>
         <button class="cart-item-remove" onclick="removeFromCart('${item.id}')">&times;</button>
@@ -134,6 +139,20 @@ function displayCart() {
   }).join('');
   
   document.getElementById('cart-total').textContent = total.toFixed(2);
+}
+
+function changeQty(id, delta) {
+  const item = cart.find(item => item.id === id);
+  if (item) {
+    item.qty += delta;
+    if (item.qty <= 0) {
+      removeFromCart(id);
+    } else {
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCount();
+      displayCart();
+    }
+  }
 }
 
 function removeFromCart(id) {
@@ -208,6 +227,24 @@ async function checkout() {
   } catch (error) {
     console.error('Error:', error);
     alert('Error placing order');
+  }
+}
+
+function viewCartProducts() {
+  const authToken = localStorage.getItem('customerToken');
+  if (!authToken) {
+    window.location.href = 'cart-login.html';
+  } else {
+    window.location.href = 'cart-products.html';
+  }
+}
+
+function goToCheckout() {
+  const authToken = localStorage.getItem('customerToken');
+  if (!authToken) {
+    window.location.href = 'cart-login.html?redirect=pay.html';
+  } else {
+    checkout();
   }
 }
 
