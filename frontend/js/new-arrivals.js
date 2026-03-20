@@ -249,7 +249,7 @@ function performSearch() {
   if (searchInput && searchInput.value.trim()) {
     window.location.href = `shop?search=${encodeURIComponent(searchInput.value.trim())}`;
   } else {
-    window.location.href = 'shop';
+    window.location.href = 'shop.html';
   }
 }
 
@@ -260,13 +260,13 @@ function subscribeNewsletter(e) {
 }
 
 function viewCartProducts() {
-  window.location.href = 'cart';
+  window.location.href = 'cart.html';
 }
 
 function goToCheckout() {
   const authToken = localStorage.getItem('customerToken');
   if (!authToken) {
-    window.location.href = 'cart-login';
+    window.location.href = 'cart-login.html';
   } else {
     checkout();
   }

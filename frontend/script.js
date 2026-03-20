@@ -43,7 +43,7 @@ function loadCart() {
     
     if (!cart || cart.length === 0) {
         if (container) {
-            container.innerHTML = '<p class="empty-cart">Your cart is empty. <a href="shop">Continue shopping</a></p>';
+            container.innerHTML = '<p class="empty-cart">Your cart is empty. <a href="shop.html">Continue shopping</a></p>';
         }
         if (subtotalEl) subtotalEl.textContent = '$0.00';
         if (totalEl) totalEl.textContent = '$0.00';
@@ -303,7 +303,7 @@ async function finishOrder() {
             // Clear cart
             cart = [];
             localStorage.setItem('cart', JSON.stringify(cart));
-            window.location.href = 'shop';
+            window.location.href = 'shop.html';
         } else {
             const error = await response.json();
             alert(error.message || 'Error placing order');
