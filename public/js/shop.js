@@ -146,9 +146,21 @@ async function loadProducts() {
 function applyFilters() {
   let products = [...allProducts];
   
-  // Category filter
+  // Category filter - handle both 'men' and 'Men's Fashion' formats
   if (currentCategory && currentCategory !== 'all') {
-    products = products.filter(p => p.category === currentCategory);
+    const categoryMap = {
+      men: ['men', "men's fashion", "men's", 'male'],
+      women: ['women', "women's fashion", "women's", 'female'],
+      kids: ['kids', "kids fashion", 'children', 'child'],
+      accessories: ['accessories', 'accessory', 'jewelry', 'jewellery']
+    };
+    
+    const validCategories = categoryMap[currentCategory] || [currentCategory];
+    products = products.filter(p => {
+      if (!p.category) return false;
+      const productCategory = p.category.toLowerCase();
+      return validCategories.some(cat => productCategory.includes(cat.toLowerCase()));
+    });
   }
   
   // Search filter
@@ -178,11 +190,15 @@ function applyFilters() {
   const sortBy = sortSelect ? sortSelect.value : 'featured';
   
   if (sortBy === 'price-low') {
-    products.sort((a, b) => a.price - b.price);
+    products.sort((a, b) => (a.price || 0) - (b.price || 0));
   } else if (sortBy === 'price-high') {
-    products.sort((a, b) => b.price - a.price);
+    products.sort((a, b) => (b.price || 0) - (a.price || 0));
   } else if (sortBy === 'newest') {
-    products.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    products.sort((a, b) => {
+      const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+      const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+      return dateB - dateA;
+    });
   } else {
     products.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
   }
@@ -263,6 +279,21 @@ function filterByStock() {
 
 function sortProducts() {
   applyFilters();
+}
+
+function filterByCategory(category, event) {
+  if (event) event.preventDefault();
+  currentCategory = category;
+  applyFilters();
+  
+  // Update active state
+  document.querySelectorAll('.filter-link').forEach(link => {
+    if (link.dataset.category === category) {
+      link.classList.add('active');
+    } else {
+      link.classList.remove('active');
+    }
+  });
 }
 
 function openCart() {
@@ -358,13 +389,13 @@ function checkout() {
 }
 
 function viewCartProducts() {
-  window.location.href = 'cart.html';
+  window.location.href = '/cart';
 }
 
 function goToCheckout() {
   const authToken = localStorage.getItem('customerToken');
   if (!authToken) {
-    window.location.href = 'cart-login.html';
+    window.location.href = '/cart-login';
   } else {
     checkout();
   }

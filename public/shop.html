@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>New Arrivals - Aisha Beauty</title>
+  <title>Shop - Aisha Beauty</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -40,11 +40,11 @@
     <div class="container">
       <div class="header-main">
         <div class="logo-section">
-          <a href="index.html" class="logo">
+          <a href="/" class="logo">
             <img src="images/LOGO.png" alt="Aisha Beauty" height="60">
           </a>
         </div>
-        
+
         <div class="search-section">
           <div class="search-box">
             <div class="search-dropdown">
@@ -63,7 +63,7 @@
             <a href="shop.html?category=accessories">Accessories</a>
           </div>
         </div>
-        
+
         <div class="header-actions">
           <a href="#" class="action-item">
             <i class="fas fa-heart"></i>
@@ -88,11 +88,11 @@
   <div class="mobile-nav" id="mobileNav">
     <button class="mobile-nav-close" onclick="toggleMobileMenu()">&times;</button>
     <ul class="mobile-nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="shop.html">Shop</a></li>
-      <li><a href="categories.html">Categories</a></li>
-      <li><a href="new-arrivals.html" class="active">New Arrivals</a></li>
-      <li><a href="sale.html">Sale</a></li>
+      <li><a href="/">Home</a></li>
+      <li><a href="/shop" class="active">Shop</a></li>
+      <li><a href="/categories">Categories</a></li>
+      <li><a href="/new-arrivals">New Arrivals</a></li>
+      <li><a href="/sale">Sale</a></li>
     </ul>
     <div class="mobile-nav-actions">
       <a href="#" onclick="viewCartProducts(); toggleMobileMenu();"><i class="fas fa-shopping-cart"></i> Cart</a>
@@ -109,44 +109,102 @@
             <span>Categories</span>
           </button>
           <div class="categories-dropdown">
-            <a href="shop.html?category=men"><i class="fas fa-male"></i> Men's Fashion <i class="fas fa-chevron-right"></i></a>
-            <a href="shop.html?category=women"><i class="fas fa-female"></i> Women's Fashion <i class="fas fa-chevron-right"></i></a>
-            <a href="shop.html?category=kids"><i class="fas fa-child"></i> Kids Fashion <i class="fas fa-chevron-right"></i></a>
-            <a href="shop.html?category=accessories"><i class="fas fa-gem"></i> Accessories <i class="fas fa-chevron-right"></i></a>
+            <a href="shop.html?category=men"><i class="fas fa-male"></i> Men's Fashion <i
+                class="fas fa-chevron-right"></i></a>
+            <a href="shop.html?category=women"><i class="fas fa-female"></i> Women's Fashion <i
+                class="fas fa-chevron-right"></i></a>
+            <a href="shop.html?category=kids"><i class="fas fa-child"></i> Kids Fashion <i
+                class="fas fa-chevron-right"></i></a>
+            <a href="shop.html?category=accessories"><i class="fas fa-gem"></i> Accessories <i
+                class="fas fa-chevron-right"></i></a>
           </div>
         </div>
         <ul class="nav-links-main">
-          <li><a href="index.html" data-i18n="home">Home</a></li>
-          <li><a href="shop.html" data-i18n="shop">Shop</a></li>
-          <li><a href="categories.html" data-i18n="categories">Categories</a></li>
-          <li><a href="new-arrivals.html" class="active" data-i18n="newArrivals">New Arrivals</a></li>
-          <li><a href="sale.html" data-i18n="sale">Sale</a></li>
+          <li><a href="/" data-i18n="home">Home</a></li>
+          <li><a href="/shop" class="active" data-i18n="shop">Shop</a></li>
+          <li><a href="/categories" data-i18n="categories">Categories</a></li>
+          <li><a href="/new-arrivals" data-i18n="newArrivals">New Arrivals</a></li>
+          <li><a href="/sale" data-i18n="sale">Sale</a></li>
           <li><a href="#">Bulk Orders</a></li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <!-- Banner -->
-  <section class="page-banner">
+  <!-- Breadcrumb -->
+  <div class="breadcrumb-section">
     <div class="container">
-      <div class="banner-content">
-        <h1><span class="gold">New</span> Arrivals</h1>
-        <p>Discover the latest trends in fashion</p>
+      <div class="breadcrumb">
+        <a href="/">Home</a>
+        <span>/</span>
+        <span id="breadcrumb-title">Shop</span>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- Products Section -->
+  <!-- Shop Content -->
   <section class="shop-content">
     <div class="container">
-      <div class="products-grid-main" id="products-container">
-        <!-- Products will be loaded here -->
-      </div>
-      <div id="no-products" class="no-products" style="display: none;">
-        <i class="fas fa-box-open"></i>
-        <p>No new arrivals yet. Check back soon!</p>
-        <a href="shop.html" class="btn-banner">Browse All Products</a>
+      <div class="shop-layout">
+        <!-- Sidebar Filters -->
+        <aside class="shop-sidebar">
+          <div class="filter-section">
+            <h3>Category</h3>
+            <ul class="filter-list">
+              <li><a href="#" class="filter-link active" data-category="all" onclick="filterByCategory('all', event)">All Products</a></li>
+              <li><a href="#" class="filter-link" data-category="men" onclick="filterByCategory('men', event)">Men's Fashion</a></li>
+              <li><a href="#" class="filter-link" data-category="women" onclick="filterByCategory('women', event)">Women's Fashion</a></li>
+              <li><a href="#" class="filter-link" data-category="kids" onclick="filterByCategory('kids', event)">Kids Fashion</a></li>
+              <li><a href="#" class="filter-link" data-category="accessories" onclick="filterByCategory('accessories', event)">Accessories</a></li>
+            </ul>
+          </div>
+
+          <div class="filter-section">
+            <h3>Price Range</h3>
+            <div class="price-inputs">
+              <input type="number" id="min-price" placeholder="Min">
+              <span>-</span>
+              <input type="number" id="max-price" placeholder="Max">
+              <button onclick="filterByPrice()">Go</button>
+            </div>
+          </div>
+
+          <div class="filter-section">
+            <h3>Availability</h3>
+            <label class="filter-checkbox">
+              <input type="checkbox" id="in-stock-only" onchange="filterByStock()">
+              <span>In Stock Only</span>
+            </label>
+          </div>
+        </aside>
+
+        <!-- Products Area -->
+        <div class="shop-main">
+          <div class="shop-toolbar">
+            <div class="results-count">
+              <span id="results-count">Showing all products</span>
+            </div>
+            <div class="sort-options">
+              <label>Sort by:</label>
+              <select id="sort-select" onchange="sortProducts()">
+                <option value="featured">Featured</option>
+                <option value="newest">Newest</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="products-grid-main" id="products-container">
+            <!-- Products will be loaded here -->
+          </div>
+
+          <div id="no-products" class="no-products" style="display: none;">
+            <i class="fas fa-search"></i>
+            <p>No products found matching your criteria.</p>
+            <a href="/shop" class="btn-banner">Clear Filters</a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -157,32 +215,60 @@
       <div class="footer-grid">
         <div class="footer-col">
           <h3>Aisha Beauty</h3>
-          <p>Your trusted destination for premium fashion.</p>
+          <p>Your trusted destination for premium fashion and lifestyle products.</p>
           <div class="footer-social">
             <a href="#"><i class="fab fa-facebook-f"></i></a>
             <a href="#"><i class="fab fa-twitter"></i></a>
             <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
           </div>
         </div>
         <div class="footer-col">
           <h4 data-i18n="quickLinks">Quick Links</h4>
           <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="shop.html">Shop</a></li>
-            <li><a href="categories.html">Categories</a></li>
+            <li><a href="/" data-i18n="home">Home</a></li>
+            <li><a href="/shop" data-i18n="shop">Shop</a></li>
+            <li><a href="/categories" data-i18n="categories">Categories</a></li>
+            <li><a href="#" data-i18n="aboutUs">About Us</a></li>
+            <li><a href="#" data-i18n="contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Customer Service</h4>
+          <ul>
+            <li><a href="#">Shipping Info</a></li>
+            <li><a href="#">Returns & Exchanges</a></li>
+            <li><a href="#">Order Tracking</a></li>
+            <li><a href="#">FAQs</a></li>
+            <li><a href="#">Size Guide</a></li>
           </ul>
         </div>
         <div class="footer-col">
           <h4 data-i18n="contactInfo">Contact Info</h4>
           <ul class="contact-list">
-            <li><i class="fas fa-map-marker-alt"></i> Uganda, Kampala</li>
-            <li><i class="fas fa-phone"></i> +1 234 567 8900</li>
-            <li><i class="fas fa-envelope"></i> infoaishabeauty@gmail.com</li>
+            <li><i class="fas fa-map-marker-alt"></i> <span data-i18n="address">123 Fashion Street, Style City</span>
+            </li>
+            <li><i class="fas fa-phone"></i> <span data-i18n="phone">+1 234 567 8900</span></li>
+            <li><i class="fas fa-envelope"></i> <span data-i18n="email">info@aishabeauty.com</span></li>
           </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Newsletter</h4>
+          <p>Subscribe to get special offers and updates</p>
+          <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+            <input type="email" placeholder="Enter your email">
+            <button type="submit">Subscribe</button>
+          </form>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; 2024 Aisha Beauty. All rights reserved.</p>
+        <p>&copy; 2024 Aisha Beauty. <span data-i18n="allRightsReserved">All rights reserved.</span></p>
+        <div class="footer-payments">
+          <i class="fab fa-cc-visa"></i>
+          <i class="fab fa-cc-mastercard"></i>
+          <i class="fab fa-cc-paypal"></i>
+          <i class="fab fa-cc-amex"></i>
+        </div>
       </div>
     </div>
   </footer>
@@ -270,7 +356,7 @@
 
   <script src="js/language.js"></script>
   <script src="js/main.js"></script>
-  <script src="js/new-arrivals.js"></script>
+  <script src="js/shop.js"></script>
 </body>
 
 </html>

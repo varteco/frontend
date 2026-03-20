@@ -276,10 +276,16 @@ function openProductModal(product = null) {
     document.getElementById('productCategory').value = product.category;
     document.getElementById('productImages').value = product.images ? product.images.join('\n') : '';
     document.getElementById('productFeatured').checked = product.featured || false;
+    document.getElementById('productNewArrival').checked = product.newArrival || false;
+    document.getElementById('productOnSale').checked = product.onSale || false;
+    document.getElementById('productDiscount').value = product.discount || 0;
   } else {
     title.textContent = 'Add New Product';
     submitBtn.textContent = 'Add Product';
     document.getElementById('productFeatured').checked = false;
+    document.getElementById('productNewArrival').checked = true;
+    document.getElementById('productOnSale').checked = false;
+    document.getElementById('productDiscount').value = 0;
   }
 
   modal.style.display = 'flex';
@@ -298,14 +304,24 @@ async function handleProductSubmit(e) {
   const imagesText = document.getElementById('productImages').value;
   const images = imagesText ? imagesText.split('\n').map(url => url.trim()).filter(url => url) : [];
 
+  const name = document.getElementById('productName').value;
+  const description = document.getElementById('productDescription').value;
+  const manualCategory = document.getElementById('productCategory').value;
+
+  // Auto-detect category based on product name and description
+  const category = detectCategory(name, description, manualCategory);
+
   const productData = {
-    name: document.getElementById('productName').value,
-    description: document.getElementById('productDescription').value,
+    name: name,
+    description: description,
     price: parseFloat(document.getElementById('productPrice').value),
     stock: parseInt(document.getElementById('productStock').value),
-    category: document.getElementById('productCategory').value,
+    category: category,
     images: images,
-    featured: document.getElementById('productFeatured').checked
+    featured: document.getElementById('productFeatured').checked,
+    newArrival: document.getElementById('productNewArrival').checked,
+    onSale: document.getElementById('productOnSale').checked,
+    discount: parseInt(document.getElementById('productDiscount').value) || 0
   };
 
   try {
@@ -327,6 +343,7 @@ async function handleProductSubmit(e) {
     if (response.ok) {
       closeModal();
       loadProducts();
+      loadCategories();
       alert(productId ? 'Product updated successfully!' : 'Product added successfully!');
     } else {
       const error = await response.json();
@@ -336,6 +353,35 @@ async function handleProductSubmit(e) {
     console.error('Error:', error);
     alert('Error saving product');
   }
+}
+
+function detectCategory(name, description, manualCategory) {
+  const text = (name + ' ' + description).toLowerCase();
+  
+  // Keywords for each category
+  const categoryKeywords = {
+    men: ['men', "men's", 'man', 'male', 'groom', 'suit', 'tie', 'dress shirt', 'polo', 'briefs', 'trunks', 'vest', 'blazer', 'jeans men', 'shirt men'],
+    women: ['women', "women's", 'woman', 'female', 'lady', 'dress', 'blouse', 'skirt', 'gown', 'saree', 'hijab', 'lingerie', 'bra', 'panties', 'jeans women', 'leggings', 'crop top', 'tunic'],
+    kids: ['kids', 'children', 'child', 'baby', 'boy', 'girl', 'infant', 'toddler', 'youth', 'little'],
+    accessories: ['accessory', 'accessories', 'jewelry', 'jewellery', 'watch', 'sunglasses', 'bag', 'purse', 'wallet', 'belt', 'hat', 'cap', 'scarf', 'ring', 'necklace', 'earring', 'bracelet', 'chain', 'pendant', 'brooch', 'hair accessory']
+  };
+
+  // Check manual category first
+  if (manualCategory && manualCategory !== 'other') {
+    return manualCategory;
+  }
+
+  // Auto-detect based on keywords
+  for (const [category, keywords] of Object.entries(categoryKeywords)) {
+    for (const keyword of keywords) {
+      if (text.includes(keyword)) {
+        return category;
+      }
+    }
+  }
+
+  // Default category
+  return 'other';
 }
 
 async function editProduct(productId) {

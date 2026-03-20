@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sale - Aisha Beauty</title>
+  <title>New Arrivals - Aisha Beauty</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -40,7 +40,7 @@
     <div class="container">
       <div class="header-main">
         <div class="logo-section">
-          <a href="index.html" class="logo">
+          <a href="/" class="logo">
             <img src="images/LOGO.png" alt="Aisha Beauty" height="60">
           </a>
         </div>
@@ -88,11 +88,11 @@
   <div class="mobile-nav" id="mobileNav">
     <button class="mobile-nav-close" onclick="toggleMobileMenu()">&times;</button>
     <ul class="mobile-nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="shop.html">Shop</a></li>
-      <li><a href="categories.html">Categories</a></li>
-      <li><a href="new-arrivals.html">New Arrivals</a></li>
-      <li><a href="sale.html" class="active">Sale</a></li>
+      <li><a href="/">Home</a></li>
+      <li><a href="/shop">Shop</a></li>
+      <li><a href="/categories">Categories</a></li>
+      <li><a href="/new-arrivals" class="active">New Arrivals</a></li>
+      <li><a href="/sale">Sale</a></li>
     </ul>
     <div class="mobile-nav-actions">
       <a href="#" onclick="viewCartProducts(); toggleMobileMenu();"><i class="fas fa-shopping-cart"></i> Cart</a>
@@ -116,64 +116,71 @@
           </div>
         </div>
         <ul class="nav-links-main">
-          <li><a href="index.html" data-i18n="home">Home</a></li>
-          <li><a href="shop.html" data-i18n="shop">Shop</a></li>
-          <li><a href="categories.html" data-i18n="categories">Categories</a></li>
-          <li><a href="new-arrivals.html" data-i18n="newArrivals">New Arrivals</a></li>
-          <li><a href="sale.html" class="active" data-i18n="sale">Sale</a></li>
+          <li><a href="/" data-i18n="home">Home</a></li>
+          <li><a href="/shop" data-i18n="shop">Shop</a></li>
+          <li><a href="/categories" data-i18n="categories">Categories</a></li>
+          <li><a href="/new-arrivals" class="active" data-i18n="newArrivals">New Arrivals</a></li>
+          <li><a href="/sale" data-i18n="sale">Sale</a></li>
           <li><a href="#">Bulk Orders</a></li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <!-- Sale Banner -->
-  <section class="sale-banner">
+  <!-- Banner -->
+  <section class="page-banner">
     <div class="container">
-      <div class="sale-banner-content">
-        <div class="sale-badge">FLASH SALE</div>
-        <h1>Up to <span class="gold">50% OFF</span></h1>
-        <p>Limited time offers on selected items</p>
-        <div class="sale-timer">
-          <div class="timer-block">
-            <span id="days">00</span>
-            <label>Days</label>
-          </div>
-          <div class="timer-block">
-            <span id="hours">00</span>
-            <label>Hours</label>
-          </div>
-          <div class="timer-block">
-            <span id="minutes">00</span>
-            <label>Minutes</label>
-          </div>
-          <div class="timer-block">
-            <span id="seconds">00</span>
-            <label>Seconds</label>
-          </div>
-        </div>
+      <div class="banner-content">
+        <h1><span class="gold">New</span> Arrivals</h1>
+        <p>Discover the latest trends in fashion</p>
       </div>
     </div>
   </section>
 
-  <!-- Sale Products -->
+  <!-- Products Section -->
   <section class="shop-content">
     <div class="container">
-      <div class="sale-filters">
-        <button class="sale-filter active" data-discount="all">All Deals</button>
-        <button class="sale-filter" data-discount="10">10% OFF</button>
-        <button class="sale-filter" data-discount="20">20% OFF</button>
-        <button class="sale-filter" data-discount="30">30% OFF</button>
-        <button class="sale-filter" data-discount="50">50% OFF</button>
-      </div>
+      <div class="shop-layout">
+        <!-- Sidebar Filters -->
+        <aside class="shop-sidebar">
+          <div class="filter-section">
+            <h3>Category</h3>
+            <ul class="filter-list">
+              <li><a href="#" class="filter-link active" data-category="all" onclick="filterByCategory('all', event)">All Products</a></li>
+              <li><a href="#" class="filter-link" data-category="men" onclick="filterByCategory('men', event)">Men's Fashion</a></li>
+              <li><a href="#" class="filter-link" data-category="women" onclick="filterByCategory('women', event)">Women's Fashion</a></li>
+              <li><a href="#" class="filter-link" data-category="kids" onclick="filterByCategory('kids', event)">Kids Fashion</a></li>
+              <li><a href="#" class="filter-link" data-category="accessories" onclick="filterByCategory('accessories', event)">Accessories</a></li>
+            </ul>
+          </div>
+
+          <div class="filter-section">
+            <h3>Sort By</h3>
+            <select id="sort-select" onchange="sortProducts()" class="sort-select">
+              <option value="newest">Newest First</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+            </select>
+          </div>
+        </aside>
+
+        <!-- Products Area -->
+        <div class="shop-main">
+          <div class="shop-toolbar">
+            <div class="results-count">
+              <span id="results-count">Showing all products</span>
+            </div>
+          </div>
       
-      <div class="products-grid-main" id="products-container">
-        <!-- Products will be loaded here -->
-      </div>
-      <div id="no-products" class="no-products" style="display: none;">
-        <i class="fas fa-tags"></i>
-        <p>No sale items available yet.</p>
-        <a href="shop.html" class="btn-banner">Browse All Products</a>
+          <div class="products-grid-main" id="products-container">
+            <!-- Products will be loaded here -->
+          </div>
+          <div id="no-products" class="no-products" style="display: none;">
+            <i class="fas fa-box-open"></i>
+            <p>No products found. Check back soon!</p>
+            <a href="/new-arrivals" class="btn-banner">Show All Products</a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -194,9 +201,9 @@
         <div class="footer-col">
           <h4 data-i18n="quickLinks">Quick Links</h4>
           <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="shop.html">Shop</a></li>
-            <li><a href="categories.html">Categories</a></li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/shop">Shop</a></li>
+            <li><a href="/categories">Categories</a></li>
           </ul>
         </div>
         <div class="footer-col">
@@ -297,7 +304,7 @@
 
   <script src="js/language.js"></script>
   <script src="js/main.js"></script>
-  <script src="js/sale.js"></script>
+  <script src="js/new-arrivals.js"></script>
 </body>
 
 </html>

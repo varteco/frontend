@@ -3,13 +3,13 @@ let currentUser = null;
 let authToken = localStorage.getItem('customerToken');
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 let allProducts = [];
+let currentCategory = 'all';
 
 document.addEventListener('DOMContentLoaded', function () {
   checkAuth();
   loadSaleProducts();
   updateCartCount();
   startSaleTimer();
-  setupSaleFilters();
   
   document.addEventListener('click', function(e) {
     if (e.target.classList.contains('add-to-cart')) {
@@ -58,34 +58,77 @@ function showLoggedOutState() {
 async function loadSaleProducts() {
   try {
     const response = await fetch(`${API_BASE}/products`);
-    allProducts = await response.json();
+    const products = await response.json();
     
-    // Show all products as sale items (in a real app, you'd have a sale/discount field)
-    displayProducts(allProducts);
+    // Filter only sale products (onSale flag)
+    allProducts = products.filter(p => p.onSale === true);
+    applyFilters();
   } catch (error) {
     console.error('Error loading products:', error);
   }
 }
 
-function setupSaleFilters() {
-  document.querySelectorAll('.sale-filter').forEach(btn => {
-    btn.addEventListener('click', function() {
-      document.querySelectorAll('.sale-filter').forEach(b => b.classList.remove('active'));
-      this.classList.add('active');
-      
-      const discount = this.dataset.discount;
-      if (discount === 'all') {
-        displayProducts(allProducts);
-      } else {
-        // For demo, randomly assign discounts to products
-        const discounted = allProducts.map(p => ({
-          ...p,
-          discount: Math.floor(Math.random() * 50) + 10
-        })).filter(p => p.discount >= parseInt(discount));
-        displayProducts(discounted);
-      }
+function applyFilters() {
+  let products = [...allProducts];
+  
+  // Category filter
+  if (currentCategory && currentCategory !== 'all') {
+    const categoryMap = {
+      men: ['men', "men's fashion", "men's", 'male'],
+      women: ['women', "women's fashion", "women's", 'female'],
+      kids: ['kids', "kids fashion", 'children', 'child'],
+      accessories: ['accessories', 'accessory', 'jewelry', 'jewellery']
+    };
+    
+    const validCategories = categoryMap[currentCategory] || [currentCategory];
+    products = products.filter(p => {
+      if (!p.category) return false;
+      const productCategory = p.category.toLowerCase();
+      return validCategories.some(cat => productCategory.includes(cat.toLowerCase()));
     });
+  }
+  
+  // Sort
+  const sortSelect = document.getElementById('sort-select');
+  const sortBy = sortSelect ? sortSelect.value : 'featured';
+  
+  if (sortBy === 'price-low') {
+    products.sort((a, b) => (a.price || 0) - (b.price || 0));
+  } else if (sortBy === 'price-high') {
+    products.sort((a, b) => (b.price || 0) - (a.price || 0));
+  } else {
+    products.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
+  }
+  
+  displayProducts(products);
+  updateResultsCount(products.length);
+}
+
+function filterByCategory(category, event) {
+  if (event) event.preventDefault();
+  currentCategory = category;
+  applyFilters();
+  
+  // Update active state
+  document.querySelectorAll('.filter-link').forEach(link => {
+    if (link.dataset.category === category) {
+      link.classList.add('active');
+    } else {
+      link.classList.remove('active');
+    }
   });
+}
+
+function sortProducts() {
+  applyFilters();
+}
+
+function updateResultsCount(count) {
+  const resultsCount = document.getElementById('results-count');
+  if (resultsCount) {
+    const categoryText = currentCategory && currentCategory !== 'all' ? ` in ${currentCategory}` : '';
+    resultsCount.textContent = `Showing ${count} product${count !== 1 ? 's' : ''}${categoryText}`;
+  }
 }
 
 function displayProducts(products) {
@@ -103,9 +146,9 @@ function displayProducts(products) {
   if (noProducts) noProducts.style.display = 'none';
 
   container.innerHTML = products.map(product => {
-    const discount = product.discount || Math.floor(Math.random() * 30) + 10;
+    const discount = product.discount || 0;
     const originalPrice = product.price;
-    const salePrice = originalPrice * (1 - discount / 100);
+    const salePrice = discount > 0 ? originalPrice * (1 - discount / 100) : originalPrice;
     
     let stockStatus, stockClass;
     if (product.stock > 5) {
@@ -299,9 +342,9 @@ async function checkout() {
 function performSearch() {
   const searchInput = document.getElementById('search-input');
   if (searchInput && searchInput.value.trim()) {
-    window.location.href = `shop?search=${encodeURIComponent(searchInput.value.trim())}`;
+    window.location.href = `/shop?search=${encodeURIComponent(searchInput.value.trim())}`;
   } else {
-    window.location.href = 'shop.html';
+    window.location.href = '/shop';
   }
 }
 
@@ -312,13 +355,13 @@ function subscribeNewsletter(e) {
 }
 
 function viewCartProducts() {
-  window.location.href = 'cart.html';
+  window.location.href = '/cart';
 }
 
 function goToCheckout() {
   const authToken = localStorage.getItem('customerToken');
   if (!authToken) {
-    window.location.href = 'cart-login.html';
+    window.location.href = '/cart-login';
   } else {
     checkout();
   }

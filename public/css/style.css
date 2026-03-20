@@ -2948,3 +2948,21 @@ body.rtl .main-footer .container {
     top: 60px;
   }
 }
+
+/* Sort Select */
+.sort-select {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+.sort-select:hover,
+.sort-select:focus {
+  border-color: var(--primary);
+  outline: none;
+}
