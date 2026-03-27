@@ -272,8 +272,9 @@ body {
   background: white;
   width: 90%;
   max-width: 700px;
+  max-height: 90vh;
   border-radius: 10px;
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 .modal-header {
@@ -333,6 +334,8 @@ body {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  width: auto;
+  display: inline-block;
 }
 
 .btn-cancel { background: #ddd; color: #333; }
@@ -807,6 +810,8 @@ body {
   .modal-content {
     padding: 15px;
     border-radius: 8px;
+    max-width: 100%;
+    width: 100%;
   }
 
   .modal-close {
